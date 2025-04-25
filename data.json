@@ -1,0 +1,9 @@
+{
+    "customers": {
+        "pughaz": {
+            "password": "1234",
+            "pending_amount": 0,
+            "payments": []
+        }
+    }
+}

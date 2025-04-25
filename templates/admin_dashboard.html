@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Admin Dashboard</title>
+    <style>
+        body {
+            font-family: Arial;
+            background: #f4f4f4;
+            padding: 20px;
+        }
+        h2 {
+            text-align: center;
+        }
+        table {
+            margin: auto;
+            border-collapse: collapse;
+            width: 80%;
+        }
+        th, td {
+            padding: 10px;
+            border: 1px solid #ddd;
+            text-align: center;
+        }
+        .green { color: green; }
+        .blue { color: blue; }
+        .red-box, .green-box {
+            display: inline-block;
+            padding: 10px;
+            border-radius: 5px;
+            color: white;
+            margin: 10px;
+        }
+        .red-box { background: blue; }
+        .green-box { background: green; }
+    </style>
+</head>
+<body>
+    <h2>Admin Dashboard - JOTHI LUNGHIES</h2>
+    <a href="/logout">Logout</a>
+    <h3>Create New Customer</h3>
+    <form method="POST">
+        <input type="hidden" name="create_customer" value="true">
+        <label>Username: </label><input name="new_username" required>
+        <label>Password: </label><input name="new_password" required>
+        <button type="submit">Add Customer</button>
+    </form>
+
+    <hr>
+    <h3>Modify Customer</h3>
+    <form method="POST">
+        <label>Customer: </label>
+        <select name="username">
+            {% for name in customers.keys() %}
+            <option value="{{ name }}">{{ name }}</option>
+            {% endfor %}
+        </select>
+        <label>Amount: </label><input type="number" name="amount" step="0.01" required>
+        <label>Date: </label><input type="date" name="date" required>
+        <button class="red-box" type="submit" name="action" value="add">Add</button>
+        <button class="green-box" type="submit" name="action" value="subtract">Subtract</button>
+    </form>
+
+    <hr>
+    <h3>Customer Overview</h3>
+    <table>
+        <tr>
+            <th>Customer</th>
+            <th>Pending Amount</th>
+            <th>Payments</th>
+        </tr>
+        {% for name, data in customers.items() %}
+        <tr>
+            <td>{{ name }}</td>
+            <td>{{ data.pending_amount }}</td>
+            <td>
+                {% for pay in data.payments %}
+                    <div class="{% if pay.amount < 0 %}green{% else %}blue{% endif %}">
+                        {{ pay.date }}: {% if pay.amount > 0 %}+{% else %}-{% endif %}{{ pay.amount|abs }}<br>
+                    </div>
+                {% endfor %}
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>

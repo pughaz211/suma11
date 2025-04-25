@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Customer Dashboard</title>
+    <style>
+        body {
+            font-family: Arial;
+            text-align: center;
+            background: #f8f9fa;
+        }
+        .pending {
+            margin-top: 20px;
+            font-size: 24px;
+            font-weight: bold;
+        }
+        table {
+            margin: 20px auto;
+            width: 70%;
+            border-collapse: collapse;
+        }
+        th, td {
+            padding: 12px;
+            border: 1px solid #ccc;
+        }
+        .blue { color: blue; }
+        .green { color: green; }
+    </style>
+</head>
+<body>
+    <h2>Welcome, {{ username }}</h2>
+    <div class="pending">Pending Amount: ₹{{ pending }}</div>
+    <table>
+        <tr>
+            <th>Date</th>
+            <th>Payment</th>
+        </tr>
+        {% for pay in payments %}
+        <tr>
+            <td>{{ pay.date }}</td>
+            <td class="{% if pay.amount < 0 %}green{% else %}blue{% endif %}">{% if pay.amount > 0 %}+{% else %}-{% endif %}{{ pay.amount|abs }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+    <a href="/logout">Logout</a>
+</body>
+</html>
